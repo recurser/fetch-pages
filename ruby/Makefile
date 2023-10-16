@@ -1,11 +1,20 @@
 clean:
 	find . -iname "*.html" -exec rm {} \;
 
+demo-fetch: clean
+	bundle exec ./fetch https://www.google.com https://autify.com
+
+demo-metadata:
+	bundle exec ./fetch --metadata https://www.google.com https://autify.com
+
 format:
 	bundle exec rubocop --autocorrect
+
+install:
+	bundle install
 
 lint:
 	bundle exec rubocop
 
-test-run:
-	bundle exec ./fetch https://www.google.com
+test:
+	bundle exec rspec spec/
