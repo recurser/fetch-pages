@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/recurser/fetch-pages/compare/v1.0.2...v1.0.3) (2023-10-16)
+
+
+### Bug Fixes
+
+* **ruby:** trigger a release ([ca6eeb0](https://github.com/recurser/fetch-pages/commit/ca6eeb0108dbaec429f6045f10f4f3c95995d318))
+
 ## [1.0.2](https://github.com/recurser/fetch-pages/compare/v1.0.1...v1.0.2) (2023-10-16)
 
 
