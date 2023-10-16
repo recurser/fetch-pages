@@ -44,3 +44,8 @@ To SSH into the image:
 docker run --rm -it --entrypoint=/bin/bash daveperrett/fetch-pages-ruby:1.0.0
 ```
 
+To run the image from DockerHub remotely:
+
+```
+docker run -v ~/Desktop/tmp:/app/tmp --rm -it docker.io/daveperrett/fetch-pages-ruby:1.0.3 --mirror --out=tmp/ https://www.google.com/
+```

@@ -78,6 +78,10 @@ jobs:
   #
   # ruby
   #
+  # In the real world we would probably have multiple services
+  # here, and only want to build and tag images that have
+  # changes. Thus the ruby-changes checks.
+  #
   #------------------------------------------------------------
   check-ruby:
     runs-on: ubuntu-latest
@@ -127,6 +131,6 @@ jobs:
       - name: Docker build
         run: docker build -t daveperrett/fetch-pages-ruby:${{ needs.version.outputs.semver }} .
 
-      - name: Push changes to the container registry
+      - name: Push to DockerHub
         run: |
           docker push daveperrett/fetch-pages-ruby:${{ needs.version.outputs.semver }}
