@@ -4,7 +4,7 @@ require 'rspec'
 require 'timecop'
 require 'webmock/rspec'
 
-require_relative '../src/page'
+require_relative '../app/page'
 
 # rubocop:disable Metrics/BlockLength
 describe Page do

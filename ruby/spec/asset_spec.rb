@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rspec'
-require_relative '../src/asset'
+require_relative '../app/asset'
 
 RSpec.describe Asset do
   let(:page_url) { 'http://example.com' }

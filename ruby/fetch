@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
 # This is just an executable wrapper to call the Ruby script.
-bundle exec ruby src/fetch.rb "$@"
+bundle exec ruby app/fetch.rb "$@"
