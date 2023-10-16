@@ -1,0 +1,65 @@
+name: ruby (test)
+
+# Cancel in-progress jobs.
+concurrency:
+  group:              ruby-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    # Only test if something has changed.
+    paths:
+      - .github/workflows/ruby-test.yml
+      - ruby/**
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    outputs:
+      status: ${{ steps.changes.conclusion }}
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - uses: dorny/paths-filter@v2
+      id: changes
+      with:
+        filters: |
+          ruby:
+            - ruby/**
+            - .github/workflows/ruby-test.yml
+
+    - name: Check service changed
+      if:  steps.changes.outputs.ruby == 'true'
+      run: echo "Service has changed - running CI"
+
+  ruby:
+    runs-on: ubuntu-latest
+
+    needs: check
+    if:    needs.check.outputs.status == 'success'
+
+    defaults:
+      run:
+        working-directory: ruby
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.2'
+        bundler-cache: true
+
+    - name: Install
+      run: |
+        make install
+
+    - name: Lint
+      run: |
+        make lint
+
+    - name: Run tests
+      run: |
+        make test
