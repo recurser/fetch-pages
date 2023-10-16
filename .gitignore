@@ -1,3 +1,4 @@
-ruby/*.html
-ruby/*-assets
-ruby/tmp/
+/node_modules/
+/ruby/*.html
+/ruby/*-assets
+/ruby/tmp/

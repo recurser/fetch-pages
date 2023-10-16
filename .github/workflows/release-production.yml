@@ -1,0 +1,109 @@
+name: release-production
+
+# Cancel in-progress jobs.
+concurrency:
+  group:              release-production-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - production
+    paths:
+      - .github/workflows/release-production.yml
+      - ruby/**
+
+jobs:
+  check-any:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.any-changes.outputs.any_changed }}
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 2
+    - name: Get changed files
+      id: any-changes
+      uses: tj-actions/changed-files@v34
+      with:
+        files: |
+          .github/workflows/release-production.yml
+          ruby/**
+    - name: List all changed files
+      run: |
+        for file in ${{ steps.any-changes.outputs.all_changed_files }}; do
+          echo "$file was changed"
+        done
+
+
+  version:
+    runs-on: ubuntu-latest
+    needs: check-any
+    if:    needs.check-any.outputs.changed == 'true'
+    outputs:
+      semver: ${{ steps.setsemver.outputs.semver }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache:        "yarn"
+      - name: Install packages
+        run: yarn install
+      - name: Determine the semantic version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: touch .VERSION && yarn semantic-release
+      - name: Set semantic version variable
+        run: echo SEM_VER=`cat .VERSION` >> $GITHUB_ENV
+      - id: setsemver
+        name: Set output
+        run: echo "semver=${SEM_VER}" >> $GITHUB_OUTPUT
+
+
+  #------------------------------------------------------------
+  #
+  # ruby
+  #
+  #------------------------------------------------------------
+  check-ruby:
+    runs-on: ubuntu-latest
+    needs: [version]
+    if: ${{ needs.version.outputs.semver != '' }}
+    outputs:
+      changed: ${{ steps.ruby-changes.outputs.any_changed }}
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 2
+    - name: Get changed files
+      id: ruby-changes
+      uses: tj-actions/changed-files@v34
+      with:
+        files: |
+          ruby/**
+
+  tag-and-release-ruby:
+    runs-on: ubuntu-latest
+    needs: [version, check-ruby]
+    if: ${{ needs.check-ruby.outputs.changed == 'true' }}
+    env:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+      FORCE_COLOR: 1
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: check-ruby changed
+        run: echo '${{ needs.check-ruby.outputs.changed }}'
+
+      - name: DockerHub login
+        run: docker login --username "$DOCKERHUB_USERNAME" --password "$DOCKERHUB_TOKEN"
+
+      - name: Docker build
+        run: docker build -t daveperrett/fetch-pages-ruby:${{ needs.version.outputs.semver }} .
+
+      - name: Push changes to the container registry
+        run: |
+          docker push daveperrett/fetch-pages-ruby:${{ needs.version.outputs.semver }}
