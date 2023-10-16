@@ -27,7 +27,7 @@
 - `make demo-out` - run an example of the `fetch --out=tmp/` command
 - `make lint` - run code linting checks
 - `make test` - run tests
-- `make docker` - build the docker image `daveperrett/fetch-pages-ruby:1.0.0`
+- `make docker` - build the docker image `daveperrett/fetch-pages-ruby:1.0.5`
 - `make demo-docker` - run an example from docker
 
 
@@ -48,11 +48,11 @@ The demo will mount `~/Desktop/tmp` on your local filesystem to the output folde
 To SSH into the image:
 
 ```bash
-docker run --rm -it --entrypoint=/bin/bash daveperrett/fetch-pages-ruby:1.0.0
+docker run --rm -it --entrypoint=/bin/bash daveperrett/fetch-pages-ruby:1.0.5
 ```
 
 To run the image from DockerHub remotely:
 
 ```
-docker run -v ~/Desktop/tmp:/app/tmp --rm -it docker.io/daveperrett/fetch-pages-ruby:1.0.3 --mirror --out=tmp/ https://www.google.com/
+docker run -v ~/Desktop/tmp:/app/tmp --rm -it docker.io/daveperrett/fetch-pages-ruby:1.0.5 --mirror --out=tmp/ https://www.google.com/
 ```

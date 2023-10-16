@@ -106,7 +106,10 @@ class Page
   def basename
     @basename ||= begin
       path = url.split('/').last.gsub(/[^a-z0-9\.]/i, '-')
-      path = File.join(options[:out], path) if options[:out]
+      unless options[:out].nil?
+        path = File.join(options[:out], path)
+        FileUtils.mkdir_p(File.dirname(path))
+      end
       path
     end
   end
