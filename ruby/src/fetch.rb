@@ -8,6 +8,7 @@ require_relative 'page'
 options = {}
 OptionParser.new do |opt|
   opt.on('-m', '--metadata') { options[:metadata] = true }
+  opt.on('-r', '--mirror') { options[:mirror] = true }
 end.parse!
 
 # Check that we have argument(s).

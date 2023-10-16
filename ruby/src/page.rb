@@ -3,6 +3,8 @@
 require 'httparty'
 require 'nokogiri'
 
+require_relative 'asset'
+
 # A page represents a HTML page hosted on a remote URL, with support for fetching
 # the page and its assets.
 class Page
@@ -14,7 +16,9 @@ class Page
 
   # Constructor.
   #
-  # The only option currently supported is a boolean 'metadata' flag, which prints metadata.
+  # The only options currently supported are:
+  # - A boolean 'metadata' flag, which prints metadata.
+  # - A boolean 'mirror' flag, which mirrors the page to disk.
   def initialize(url, options = {})
     @url = url
     @options = options
@@ -32,6 +36,9 @@ class Page
     # I've opted to return early and save resources in this case.
     if options[:metadata]
       metadata
+      return
+    elsif options[:mirror]
+      mirror!
       return
     end
 
@@ -68,6 +75,22 @@ class Page
     puts "last_fetch: #{last_fetched_at}"
   end
 
+  # Mirror the remote page, including assets. This is a destructive action, since
+  # it will over-write any existing files.
+  def mirror!
+    [
+      images,
+      parsed_html.css('link'),
+      parsed_html.css('script')
+    ].flatten.each do |element|
+      Asset.new(url, element).mirror!
+    end
+
+    # We don't use download!() here, because we want to write the transformed
+    # HTML rather than the raw original.
+    File.write(filename, parsed_html.to_html)
+  end
+
   private
 
   # Stores the HTML fetched from the page.
@@ -84,13 +107,13 @@ class Page
     url.split('/').last.gsub(/[^a-z0-9\.]/i, '-')
   end
 
-  # A wrapper around the attribute which lazy-parses the HTML.
-  def parsed_html
-    @parsed_html ||= Nokogiri::HTML(html)
-  end
-
   # Generates a filename to store the fetched HTML to.
   def filename
     "#{basename}.html"
+  end
+
+  # A wrapper around the attribute which lazy-parses the HTML.
+  def parsed_html
+    @parsed_html ||= Nokogiri::HTML(html)
   end
 end

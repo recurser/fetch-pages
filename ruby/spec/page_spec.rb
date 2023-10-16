@@ -9,11 +9,12 @@ require_relative '../src/page'
 # rubocop:disable Metrics/BlockLength
 describe Page do
   let(:url) { 'http://example.com/test_page' }
-  let(:sample_html) { "<html><body><a href='link1'></a><img src='img1'></img></body></html>" }
+  let(:sample_html) { "<html><body><a href='link1'></a><img src='img1.png'></img></body></html>" }
   let(:page) { described_class.new(url) }
 
   before do
     stub_request(:get, url).to_return(body: sample_html, status: 200)
+    stub_request(:get, 'http://example.com/img1.png').to_return(body: 'image-data', status: 200)
   end
 
   describe '#initialize' do
@@ -50,6 +51,22 @@ describe Page do
         allow(page).to receive(:metadata)
         page.fetch
         expect(page).to have_received(:metadata)
+      end
+
+      it 'does not download' do
+        allow(page).to receive(:download!)
+        page.fetch
+        expect(page).not_to have_received(:download!)
+      end
+    end
+
+    context 'when mirror option is true' do
+      let(:page) { described_class.new(url, mirror: true) }
+
+      it 'prints metadata' do
+        allow(page).to receive(:mirror!)
+        page.fetch
+        expect(page).to have_received(:mirror!)
       end
 
       it 'does not download' do
