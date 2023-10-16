@@ -2,7 +2,8 @@
 
 - I use the [httparty](https://github.com/jnunemaker/httparty) in Ruby to simplify fetching, automatically follow redirects etc.
 - To mirror assets properly, we should also update URLs within the CSS. I opted not to do this in the interest of time, but it would be fairly easy to add.
-- I added a `--out=path/to/output/folder/"` to make testing with docker easier.
+- I added a `--out=path/to/output/folder/"` option to make testing with docker easier.
+- There is a Github Action to run linting checks and tests. See [`.github/workflows`](https://github.com/recurser/fetch-pages/tree/main/.github/workflows)
 
 
 ## Questions
