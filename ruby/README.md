@@ -43,3 +43,4 @@ To SSH into the image:
 ```bash
 docker run --rm -it --entrypoint=/bin/bash daveperrett/fetch-pages-ruby:1.0.0
 ```
+
