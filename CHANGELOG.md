@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/recurser/fetch-pages/compare/v1.0.4...v1.0.5) (2023-10-16)
+
+
+### Bug Fixes
+
+* **ruby:** fix edge cases around the --out option ([44f3761](https://github.com/recurser/fetch-pages/commit/44f376181b746094aa2a32e1bcd4372a50c6df40))
+
 ## [1.0.4](https://github.com/recurser/fetch-pages/compare/v1.0.3...v1.0.4) (2023-10-16)
 
 
