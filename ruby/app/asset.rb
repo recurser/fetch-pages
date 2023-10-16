@@ -67,18 +67,18 @@ class Asset
 
   # Generates a base folder to store mirrored assets to.
   def base_folder
-    @base_folder ||= begin
-      path = File.join("#{page_url.split('/').last.gsub(/[^a-z0-9\.]/i, '-')}-assets", element.name)
-      path = File.join(options[:out], path) if options[:out]
-      FileUtils.mkdir_p(path)
-      path
-    end
+    @base_folder ||= File.join("#{page_url.split('/').last.gsub(/[^a-z0-9\.]/i, '-')}-assets", element.name)
   end
 
   # Writes the remote asset to a local file. This is a destructive action, since
   # it will over-write any existing files.
   def download!
-    File.open(local_path, 'w') do |file|
+    destination = local_path
+    destination = File.join(options[:out], destination) unless options[:out].nil?
+
+    FileUtils.mkdir_p(File.dirname(destination))
+
+    File.open(destination, 'w') do |file|
       next if asset_url.nil?
 
       HTTParty.get(asset_url, stream_body: true) do |fragment|
