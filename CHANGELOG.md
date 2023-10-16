@@ -1,3 +1,11 @@
+## [1.0.4](https://github.com/recurser/fetch-pages/compare/v1.0.3...v1.0.4) (2023-10-16)
+
+
+### Bug Fixes
+
+* **global:** document the release process ([0f968e9](https://github.com/recurser/fetch-pages/commit/0f968e90ee34ccac05fd91f03102275c49b1eb51))
+* **ruby:** trigger a release ([ce2354d](https://github.com/recurser/fetch-pages/commit/ce2354da88137edf82cb5f10cccaf553109c008f))
+
 ## [1.0.3](https://github.com/recurser/fetch-pages/compare/v1.0.2...v1.0.3) (2023-10-16)
 
 
