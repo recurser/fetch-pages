@@ -91,19 +91,19 @@ describe Page do
     end
   end
 
-  describe '#num_images' do
+  describe '#images' do
     before { page.fetch }
 
-    it 'returns the number of images in the HTML' do
-      expect(page.num_images).to eq(1)
+    it 'returns the list of images in the HTML' do
+      expect(page.images.length).to eq(1)
     end
   end
 
-  describe '#num_links' do
+  describe '#links' do
     before { page.fetch }
 
-    it 'returns the number of links in the HTML' do
-      expect(page.num_links).to eq(1)
+    it 'returns the list of links in the HTML' do
+      expect(page.links.length).to eq(1)
     end
   end
 end
