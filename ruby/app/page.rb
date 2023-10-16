@@ -83,7 +83,7 @@ class Page
       parsed_html.css('link'),
       parsed_html.css('script')
     ].flatten.each do |element|
-      Asset.new(url, element).mirror!
+      Asset.new(url, element, options).mirror!
     end
 
     # We don't use download!() here, because we want to write the transformed
@@ -96,7 +96,7 @@ class Page
   # Stores the HTML fetched from the page.
   attr_writer :html
 
-  # Stores any options passed to the command.
+  # Stores any options passed to the page.
   attr_reader :options
 
   # Stores the result of parsing the HTML with Nokogiri.
@@ -104,7 +104,11 @@ class Page
 
   # Generates a base to store mirrored assets to.
   def basename
-    url.split('/').last.gsub(/[^a-z0-9\.]/i, '-')
+    @basename ||= begin
+      path = url.split('/').last.gsub(/[^a-z0-9\.]/i, '-')
+      path = File.join(options[:out], path) if options[:out]
+      path
+    end
   end
 
   # Generates a filename to store the fetched HTML to.

@@ -15,9 +15,13 @@ URL_ATTR_NAMES = {
 # such as images, CSS files, etc.
 class Asset
   # Constructor.
-  def initialize(page_url, element)
+  #
+  # The only options currently supported are:
+  # - A string 'out' flag, which sets the output directory.
+  def initialize(page_url, element, options = {})
     @page_url = page_url
     @element = element
+    @options = options
   end
 
   # Downloads the given asset to the local folder, and updates the element
@@ -34,6 +38,9 @@ class Asset
 
   # The Nokogiri element that this asset represents.
   attr_reader :element
+
+  # Stores any options passed to the asset.
+  attr_reader :options
 
   # URL stores the URL of the page to be fetched.
   attr_reader :page_url
@@ -62,6 +69,7 @@ class Asset
   def base_folder
     @base_folder ||= begin
       path = File.join("#{page_url.split('/').last.gsub(/[^a-z0-9\.]/i, '-')}-assets", element.name)
+      path = File.join(options[:out], path) if options[:out]
       FileUtils.mkdir_p(path)
       path
     end
@@ -90,6 +98,7 @@ class Asset
 
   # Parses the page URL, and returns the resulting URI object.
   def page_uri
-    @page_uri ||= URI.parse(page_url)
+    # Remove trailing slashes to make it easier to test for the 'empty' path.
+    @page_uri ||= URI.parse(page_url.chomp('/'))
   end
 end

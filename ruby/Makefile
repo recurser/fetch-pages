@@ -11,6 +11,9 @@ demo-metadata:
 demo-mirror:
 	bundle exec ./fetch --mirror https://www.daveperrett.com
 
+demo-out:
+	bundle exec ./fetch --mirror --out=tmp/ https://www.daveperrett.com
+
 format:
 	bundle exec rubocop --autocorrect
 
