@@ -9,14 +9,12 @@ GEM
       rexml
     diff-lcs (1.5.0)
     hashdiff (1.0.1)
-    httparty (0.17.3)
-      mime-types (~> 3.0)
+    httparty (0.21.0)
+      mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
     json (2.6.3)
     language_server-protocol (3.17.0.3)
-    mime-types (3.5.1)
-      mime-types-data (~> 3.2015)
-    mime-types-data (3.2023.1003)
+    mini_mime (1.1.5)
     mini_portile2 (2.8.4)
     multi_xml (0.6.0)
     nokogiri (1.15.4)
@@ -78,7 +76,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  httparty (= 0.17.3)
+  httparty (= 0.21.0)
   nokogiri (= 1.15.4)
   rspec
   rubocop
