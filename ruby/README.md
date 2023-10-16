@@ -12,6 +12,12 @@
 - Should the script still download the file if the --metadata flag is passed? Or should it only print metadata?
 
 
+## Potential improvements
+
+- We don't currently cache downloads to avoid duplicates. This would be easy to add though by passing a cache object to each `Asset`.
+- Asset fetching could be parallelized to speed it up.
+
+
 ## Useful commands
 
 - `make install` - install dependencies
@@ -22,6 +28,7 @@
 - `make lint` - run code linting checks
 - `make test` - run tests
 - `make docker` - build the docker image `daveperrett/fetch-pages-ruby:1.0.0`
+- `make demo-docker` - run an example from docker
 
 
 # Running the application
