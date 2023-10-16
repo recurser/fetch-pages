@@ -1,6 +1,6 @@
 ## Notes
 
-- I use the [httparty](https://github.com/jnunemaker/httparty) in Ruby to simplify fetching, automatically follow redirects etc.
+- I use the [httparty](https://github.com/jnunemaker/httparty) library to simplify fetching, automatically follow redirects etc.
 - To mirror assets properly, we should also update URLs within the CSS. I opted not to do this in the interest of time, but it would be fairly easy to add.
 - I added a `--out=path/to/output/folder/"` option to make testing with docker easier.
 - There is a Github Action to run linting checks and tests. See [`.github/workflows`](https://github.com/recurser/fetch-pages/tree/main/.github/workflows).
@@ -16,6 +16,8 @@
 
 - We don't currently cache downloads to avoid duplicates. This would be easy to add though by passing a cache object to each `Asset`.
 - Asset fetching could be parallelized to speed it up.
+- Handle timeouts.
+- Update URLs within CSS files.
 
 
 ## Useful commands
