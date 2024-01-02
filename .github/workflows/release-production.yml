@@ -27,7 +27,7 @@ jobs:
 
     - name: Get changed files
       id: any-changes
-      uses: tj-actions/changed-files@v34
+      uses: tj-actions/changed-files@v41
       with:
         files: |
           .github/workflows/release-production.yml
@@ -99,7 +99,7 @@ jobs:
 
     - name: Get changed files
       id: ruby-changes
-      uses: tj-actions/changed-files@v34
+      uses: tj-actions/changed-files@v41
       with:
         files: |
           ruby/**
