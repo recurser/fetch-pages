@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 ruby '3.2.2'
 
 gem 'httparty', '0.21.0'
-gem 'nokogiri', '1.15.4'
+gem 'nokogiri', '1.16.2'
 
 group :development do
   gem 'rubocop'
